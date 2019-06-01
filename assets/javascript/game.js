@@ -5,7 +5,8 @@ var wordBank = ["nova", "alex", "yagmur", "nico"];
 
 var maxTriez = 10;
 var guessedLetterz = [];       
-var wordIndex;     
+var wordIndex;   
+var wins = []; 
 
 var user = [];           
 var remainingGuessez = 0;       
@@ -33,10 +34,10 @@ document.onkeydown = function(event) {
 function reset() {
 
 		remainingGuessez =maxTriez;
-		//resets the game
+        
 		game = false;
 		
-						wordIndex = Math.floor(Math.random()*(wordBank.length));
+			wordIndex = Math.floor(Math.random()*(wordBank.length));
 		
 		guessedLetterz = [];
 		
@@ -49,7 +50,7 @@ function reset() {
 		};
 		
 
-//words on screen function
+
 function displayword() {
         document.getElementById("currentWord").innerHTML ="";
         for (var i = 0; i < user.length; i++) {
@@ -63,16 +64,20 @@ function displayword() {
 
 
         if(remainingGuessez <= 0) {
+            
             hazFinished = true;
+            
         }
 		};
 		
-//call function
+
 
 function userGuess(letter) {
         if (remainingGuessez> 0) {
             if (!game) {
                 game = true;
+                
+                document.getElementById("currentWord").style.backgroundColor = "pink"
             }
             if (guessedLetterz.indexOf(letter) === -1) {
                 guessedLetterz.push(letter);
@@ -83,17 +88,19 @@ function userGuess(letter) {
 		};
 		
 
-//if wrong here
+
 function rightGuess(letter) {
         var positions = [];
         for (var i = 0; i < wordBank[wordIndex].length; i++) {
             if(wordBank[wordIndex][i] === letter) {
                 positions.push(i);
+               
 			}
 			
         }
         if (positions.length <= 0) {
             remainingGuessez--;
+            wins++;
         } else {
             for(var i = 0; i < positions.length; i++) {
                 user[positions[i]] = letter;
